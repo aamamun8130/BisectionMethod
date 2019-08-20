@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .features-table {
+            border-radius: 20px;
+            border-spacing: 0;
+            text-shadow: 0 1px 0 #fff;
+            color: #2a2a2a;
+            background: #fafafa;
+            background-image: -moz-linear-gradient(top, #fff, #eaeaea, #fff);
+            /* Firefox 3.6 */
+            background-image: -webkit-gradient(linear, center bottom, center top, from(#fff), color-stop(0.5, #eaeaea), to(#fff));
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .features-table td {
+            height: 70px;
+            padding: 0 20px;
+            border-bottom: 1px solid #cdcdcd;
+            box-shadow: 0 1px 0 white;
+            -moz-box-shadow: 0 1px 0 white;
+            -webkit-box-shadow: 0 1px 0 white;
+            text-align: center;
+            vertical-align: middle;
+            display: table-cell;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <table class="features-table">
+            <tr>
+                <td>
+                    <input id="Number1" type="text" size="2"></input> * <a><big>x</big><sup><small>
+                                <input id="pow1" type="text" size="2"></input></small></sup></a> &plusmn;
+
+                    <!-- <input id="Number2" type="text" size="2"></input> * <a><big>x</big><sup><small>
+                                <input id="pow2" type="text" size="2"></input></small></sup></a> &plusmn;
+
+                    <input id="Number3" type="text" size="2"></input> * <a><big>x</big><sup><small>
+                                <input id="pow3" type="text" size="2"></input></small></sup></a> &plusmn; -->
+                    <!-- now pow value
+                    <input id="Number4" type="text" size="2"></input> * <a><big>x</big></a> &plusmn; -->
+                    <!-- only number value -->
+                    <input id="Number5" type="text" size="2" value=""></input> = <a>0</a></br><a><small>(Enter
+                            coefficients)</small></a></br></br>
+                </td>
+            </tr>
+            <tr>
+                <td></br>
+                    <a>XL is </a><input id="xl" type="text" size="5" value=""></input></br></br>
+                </td>
+            </tr>
+            <tr>
+                <td></br>
+                    <a>XU is </a><input id="xu" type="text" size="5" value=""></input></br></br>
+                </td>
+            </tr>
+            <tr>
+                <td></br>
+                    <a>Iterarion is </a><input id="iter" type="text" size="5" value="" ></input></br></br>
+                </td>
+            </tr>
+            <tr>
+                <td></br>
+                    <a>Error is </a><input id="err" type="text" size="5" value=""></input></br></br>
+                </td>
+            </tr>
+            <tr>
+                <td></br>
+                    <input id="count" type="button" value="RUN" onclick="equation()"></input></br></br>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        var f = function (x) {
+            var a = document.getElementById('Number1').value;
+            var apow = document.getElementById('pow1').value;
+
+            // var b = document.getElementById('Number2').value;
+            // var bpow = document.getElementById('pow2').value;
+
+            // var c = document.getElementById('Number3').value;
+            // var cpow = document.getElementById('pow3').value;
+
+            // var d = document.getElementById('Number4').value;  // value and varable
+            var e = document.getElementById('Number5').value; ///only value
+
+            let Equationresult = (a * Math.pow(x, apow))
+                //    + (b*Math.pow(x, bpow)) 
+                //    + (c*Math.pow(x, cpow))
+                //    + (d*x)
+                + (e * 1)
+                ;
+            return Equationresult;
+        }
+        function equation() {
+
+            var xl = document.getElementById('xl').value*1;
+            var xu = document.getElementById('xu').value *1;
+            var iter = document.getElementById('iter').value*1;
+            var er = document.getElementById('err').value*1;
+            var fxm;
+            var oldRoot;
+
+            if (f(xl) * f(xu) < 0) {
+
+                for (var i = 1; i <= iter; i++) {
+                    //root calculation
+                    xm = (xl + xu) / 2;
+                    console.log("Iteration " + i + " root = " + xm);
+                    fxm = f(xm);
+                    if (f(xl) * fxm < 0) {
+                        xu = xm;
+                    }
+
+                    if (f(xu) * fxm < 0) {
+                        xl = xm;
+                    }
+                    /// error calculation
+                    if (i != 1) {
+                        let error = ((oldRoot - xm) / xm) * 100;
+                        if (error < 0) {
+                            error = error * (-1);
+                        }
+                        console.log("error = " + error.toFixed(2) + " %");
+                        if(error.toFixed(2)<er){
+                            return;
+                        }
+                        
+                    }
+
+                    oldRoot = xm;
+
+
+                }
+
+            }
+
+            else {
+                alert("No root!!!!!");
+            }
+
+        }
+        function cancel() {
+            document.getElementById('firstNumber').value = null;
+            document.getElementById('secondNumber').value = null;
+            document.getElementById('thirdNumber').value = null;
+            document.getElementById('answer').value = null;
+            document.getElementById('secondAnswer').value = null;
+            document.getElementById('thirdAnswer').value = null;
+        }
+    </script>
+</body>
+
+</html>
